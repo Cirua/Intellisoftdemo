@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Registration</title>
+</head>
+<body>
+    <h1>Patient Registration</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <h2>Registered Patients</h2>
+    <ul>
+        {% for patient in patients %}
+            <li>{{ patient.firstname }} {{ patient.lastname }} ({{ patient.patientno }})</li>
+        {% empty %}
+            <li>No patients registered.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

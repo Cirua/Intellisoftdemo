@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>General Assessment</title>
+</head>
+<body>
+    <h1>General Assessment</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Assessment</button>
+    </form>
+    <h2>Assessments</h2>
+    <ul>
+        {% for a in assessments %}
+            <li>{{ a.patientname }} | Date: {{ a.visitdate }} | Health: {{ a.generalhealth }} | Q2: {{ a.question2 }} | Comments: {{ a.comments }}</li>
+        {% empty %}
+            <li>No assessments found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

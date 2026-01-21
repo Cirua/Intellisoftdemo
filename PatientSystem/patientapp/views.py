@@ -17,7 +17,7 @@ def signup_view(request):
             return redirect('home')
     else:
         form = SignUpForm()
-    return render(request, 'products/signup.html', {'form': form})
+    return render(request, 'patientapp/signup.html', {'form': form})
 
 def login_view(request):
     if request.method == "POST":
@@ -28,17 +28,17 @@ def login_view(request):
             login(request, user)
             return redirect('home')
         else:
-            return render(request, 'products/login.html', {'error': 'Invalid credentials'})
-    return render(request, 'products/login.html')
+            return render(request, 'patientapp/login.html', {'error': 'Invalid credentials'})
+    return render(request, 'patientapp/login.html')
 
 @login_required
-def patientregistration(request):
+def patient_registration(request):
     if request.method == 'POST':
         form = PatientRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Patient registered successfully!")
-            return redirect('patientregistration')
+            return redirect('patient_registration')
     else:
         form = PatientRegistrationForm()
     patients = PatientRegistration.objects.all().order_by('firstname')

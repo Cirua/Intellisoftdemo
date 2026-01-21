@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Vitals</title>
+</head>
+<body>
+    <h1>Patient Vitals</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Vitals</button>
+    </form>
+    <h2>Vitals Records</h2>
+    <ul>
+        {% for v in vitals %}
+            <li>{{ v.patientname }} | Height: {{ v.height }} | Weight: {{ v.weight }} | BMI: {{ v.bmistatus }} | Date: {{ v.visitdate }}</li>
+        {% empty %}
+            <li>No vitals recorded.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
