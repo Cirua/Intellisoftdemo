@@ -4,19 +4,23 @@
     <title>Patient Registration</title>
 </head>
 <body>
+    <div class="container">
     <h1>Patient Registration</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <label>Firstname</label><input type="text" name="firstname">
+        <label>Middlename (Optional)</label><input type="text" name="middlename">
+        <label>Lastname</label><input type="text" name="lastname">
+        <label>Gender</label>
+        <label>Male</label><input type="radio" name="gender" value="Male"> Male
+        <label>Female</label><input type="radio" name="gender" value="Female"> Female
+        <label>Date of Birth</label><input type="date" name="dob">
+        <label>Patient's Number</label><input type="text" name="patientnumber">
+        <label>Registration Date</label><input type="date" name="registrationdate">
+        <button type="reset">Cancel</button>
         <button type="submit">Register</button>
     </form>
-    <h2>Registered Patients</h2>
-    <ul>
-        {% for patient in patients %}
-            <li>{{ patient.firstname }} {{ patient.lastname }} ({{ patient.patientno }})</li>
-        {% empty %}
-            <li>No patients registered.</li>
-        {% endfor %}
-    </ul>
+   </div>
 </body>
 </html>

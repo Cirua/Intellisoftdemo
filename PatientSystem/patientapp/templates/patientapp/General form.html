@@ -4,19 +4,23 @@
     <title>General Assessment</title>
 </head>
 <body>
+    <div class="container">
     <h1>General Assessment</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save Assessment</button>
+        <label>Patient name</label><input type="text" name="patientname" value="{{ request.user.username }}" readonly hidden>
+        <label>Visit date</label><input type="date" name="visitdate" value="{{ today_date }}" readonly hidden>
+        <label>General Health</label>
+        <label>Good</label><input type="radio" name="generalhealth" value="Good"> Good
+        <label>Poor</label><input type="radio" name="generalhealth" value="Poor"> Poor
+        <label>Are you currently using any drugs?</label>
+        <label>Yes</label><input type="radio" name="question2" value="Yes"> Yes
+        <label>No</label><input type="radio" name="question2" value="No"> No
+       <label>Comments</label><input type="text" name="comments" placeholder="Additional comments">
+        <button type="submit">Save</button>
+        <button type="reset">Cancel</button>
     </form>
-    <h2>Assessments</h2>
-    <ul>
-        {% for a in assessments %}
-            <li>{{ a.patientname }} | Date: {{ a.visitdate }} | Health: {{ a.generalhealth }} | Q2: {{ a.question2 }} | Comments: {{ a.comments }}</li>
-        {% empty %}
-            <li>No assessments found.</li>
-        {% endfor %}
-    </ul>
+  </div>  
 </body>
 </html>

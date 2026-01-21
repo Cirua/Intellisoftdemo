@@ -1,15 +1,103 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sign Up</title>
-</head>
-<body>
-    <h1>Sign Up</h1>
-    <form method="post">
+{% extends 'patientapp/base.html' %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <h2>Create an Account</h2>
+
+    <form method="POST" id="signupForm">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign Up</button>
+        <div class="form-group">
+            <label for="id_username">Username</label>
+            {{ form.username }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            {{ form.email }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password1">Password</label>
+            {{ form.password1 }}
+            <div id="password-rules" class="password-rules">
+                <p id="rule-length">• At least 8 characters</p>
+                <p id="rule-uppercase">• At least one uppercase letter</p>
+                <p id="rule-number">• At least one number</p>
+                <p id="rule-special">• At least one special character (!@#$%^&*)</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_password2">Confirm Password</label>
+            {{ form.password2 }}
+        </div>
+
+        <button type="submit" class="btn">Sign Up</button>
     </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
-</body>
-</html>
+
+    <p class="login-link">
+        Already have an account? <a href="{% url 'login' %}">Login here</a>.
+    </p>
+</div>
+<style>
+
+.password-rules {
+    font-size: 0.85em;
+    margin-top: 8px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+.password-rules p {
+    margin: 5px 0;
+    color: #888;
+}
+.password-rules p.valid {
+    color: green;
+    font-weight: 600;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordField = document.querySelector('#id_password1');
+    const ruleLength = document.getElementById('rule-length');
+    const ruleUppercase = document.getElementById('rule-uppercase');
+    const ruleNumber = document.getElementById('rule-number');
+    const ruleSpecial = document.getElementById('rule-special');
+
+    passwordField.addEventListener('input', function() {
+        const val = passwordField.value;
+
+        // Length
+        if (val.length >= 8) ruleLength.classList.add('valid');
+        else ruleLength.classList.remove('valid');
+
+        // Uppercase
+        if (/[A-Z]/.test(val)) ruleUppercase.classList.add('valid');
+        else ruleUppercase.classList.remove('valid');
+
+        // Number
+        if (/[0-9]/.test(val)) ruleNumber.classList.add('valid');
+        else ruleNumber.classList.remove('valid');
+
+        // Special character
+        if (/[!@#$%^&*]/.test(val)) ruleSpecial.classList.add('valid');
+        else ruleSpecial.classList.remove('valid');
+    });
+});
+</script>
+{% endblock %}

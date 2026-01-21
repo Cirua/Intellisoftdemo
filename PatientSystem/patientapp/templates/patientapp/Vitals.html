@@ -4,19 +4,19 @@
     <title>Patient Vitals</title>
 </head>
 <body>
-    <h1>Patient Vitals</h1>
+     <div class="container">
+    <h1>Patients Vitals</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save Vitals</button>
+        <label>Patient name</label><input type="text" name="patientname" value="{{ request.user.username }}" readonly hidden>
+        <label>Visit date</label><input type="date" name="visitdate" value="{{ today_date }}" readonly hidden>
+        <label>Height (cm)</label><input type="number" name="height" required>
+        <label>Weight (kg)</label><input type="number" name="weight" required>
+        <label>BMI</label><input type="text" name="bmi" required>
+        <button type="submit">Submit</button>
+        <button type="reset">Cancel</button>
     </form>
-    <h2>Vitals Records</h2>
-    <ul>
-        {% for v in vitals %}
-            <li>{{ v.patientname }} | Height: {{ v.height }} | Weight: {{ v.weight }} | BMI: {{ v.bmistatus }} | Date: {{ v.visitdate }}</li>
-        {% empty %}
-            <li>No vitals recorded.</li>
-        {% endfor %}
-    </ul>
+  </div>  
 </body>
 </html>

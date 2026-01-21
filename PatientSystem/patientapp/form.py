@@ -22,6 +22,25 @@ class PatientRegistrationForm(forms.ModelForm):
         }
 
 class PatientVitalsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['patientname'].queryset = PatientRegistration.objects.all().order_by('firstname')
+        self.fields['patientname'].label_from_instance = lambda obj: f"{obj.firstname} {obj.middlename or ''} {obj.lastname}".strip()
+        # Make all fields required
+        for field in self.fields.values():
+            field.required = True
+    def clean(self):
+        cleaned_data = super().clean()
+        height = cleaned_data.get('height')
+        weight = cleaned_data.get('weight')
+        if height and weight:
+            try:
+                height_m = float(height) / 100 if float(height) > 10 else float(height)  # Accept cm or m
+                bmi = float(weight) / (height_m ** 2)
+                cleaned_data['bmistatus'] = round(bmi, 2)
+            except Exception:
+                self.add_error('height', 'Invalid height or weight for BMI calculation.')
+        return cleaned_data
     class Meta:
         model = PatientVitals
         fields = ['patientname', 'height', 'weight', 'bmistatus', 'visitdate']
@@ -31,8 +50,18 @@ class PatientVitalsForm(forms.ModelForm):
                 'class': 'form-control'
             })
         }
+        labels = {
+            'bmistatus': 'BMI (auto-calculated)',
+        }
+        help_texts = {
+            'bmistatus': 'BMI = Weight(kg) / Height(m)^2',
+        }
 
 class OverweightAssmentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['patientname'].queryset = PatientRegistration.objects.all().order_by('firstname')
+        self.fields['patientname'].label_from_instance = lambda obj: f"{obj.firstname} {obj.middlename or ''} {obj.lastname}".strip()
     class Meta:
         model = OverweightAssment
         fields = ['patientname', 'visitdate', 'generalhealth', 'question1', 'comments']
@@ -44,6 +73,10 @@ class OverweightAssmentForm(forms.ModelForm):
         }
 
 class GeneralAssmentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['patientname'].queryset = PatientRegistration.objects.all().order_by('firstname')
+        self.fields['patientname'].label_from_instance = lambda obj: f"{obj.firstname} {obj.middlename or ''} {obj.lastname}".strip()
     class Meta:
         model = GeneralAssment
         fields = ['patientname', 'visitdate', 'generalhealth', 'question2', 'comments']
