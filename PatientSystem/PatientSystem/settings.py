@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -38,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'systemdemo',
+    'patientapp',
 ]
 
 MIDDLEWARE = [
@@ -75,15 +74,15 @@ WSGI_APPLICATION = 'PatientSystem.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'patientsystem',
-         'USER': 'postgres',
-         'PASSWORD': 'root',
-         'HOST': 'localhost',
-         'PORT': '5432',
-     }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "patientsystem",
+        "USER": "postgres",
+        "PASSWORD": "chouji",
+        "HOST": "localhost",
+    }
 }
+
 
 
 # Password validation
@@ -120,8 +119,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-     BASE_DIR/'staticfiles'
- ]
+    BASE_DIR / "static",  
+    ]
